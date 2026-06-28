@@ -1,0 +1,34 @@
+#!/bin/sh
+# keenetic-policy-ui — post-install script
+
+# Ensure init script is executable (if present)
+if [ -f /opt/etc/init.d/S99keenetic-policy-ui ]; then
+    chmod +x /opt/etc/init.d/S99keenetic-policy-ui
+fi
+
+# Restart lighttpd to pick up new config
+if [ -x /opt/etc/init.d/S80lighttpd ]; then
+    # Fix conflict with Keenetic's webdav (same pattern as nfqws-keenetic-web)
+    sed -i -E "s/^PROCS=lighttpd$/PROCS=\/opt\/sbin\/lighttpd/" /opt/etc/init.d/S80lighttpd 2>/dev/null || true
+    /opt/etc/init.d/S80lighttpd restart 2>/dev/null || true
+fi
+
+# Print access URL
+ip_addr=$(ip -f inet addr show dev br0 2>/dev/null | grep inet | sed -n 's/.*inet \([0-9.]\+\).*/\1/p')
+if [ -z "$ip_addr" ]; then
+    ip_addr="<router_ip>"
+fi
+
+echo ""
+echo "================================================"
+echo "  Keenetic Policy UI installed!"
+echo ""
+echo "  URL: http://$ip_addr:3000"
+echo ""
+echo "  Config: /opt/etc/keenetic-policy-ui/keenetic-policy-ui.conf"
+echo "  If you want to edit the config, restart lighttpd:"
+echo "    # /opt/etc/init.d/S80lighttpd restart"
+echo "================================================"
+echo ""
+
+exit 0

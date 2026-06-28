@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keenetic Policy UI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Keenetic Policy UI</h1>
+    <div class="header-actions">
+      <button id="login-btn" class="login-btn" title="Login to manage all devices">🔒 Login</button>
+      <button id="settings-btn" class="settings-btn hidden" title="Configure VPN policies">⚙</button>
+      <input id="filter-input" type="text" placeholder="Filter by name or MAC…" autocomplete="off">
+      <label class="online-filter" title="Show only online devices">
+        <input id="online-only" type="checkbox">
+        <span>Online</span>
+      </label>
+      <button id="refresh-btn" title="Refresh device list">&#x21bb;</button>
+    </div>
+  </header>
+
+  <main id="device-list">
+    <div class="loading">Loading devices&hellip;</div>
+  </main>
+
+  <div id="toast-container"></div>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <h2>Login to Keenetic</h2>
+      <form id="login-form">
+        <input id="login-username" name="username" type="text" placeholder="Username" autocomplete="username" required>
+        <input id="login-password" name="password" type="password" placeholder="Password" autocomplete="current-password" required>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">Login</button>
+          <button type="button" id="login-cancel" class="btn-secondary">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal-overlay hidden">
+    <div class="modal modal-wide">
+      <h2>Policy Configuration</h2>
+      <div id="settings-error" class="settings-error hidden"></div>
+      <table class="policy-table">
+        <thead>
+          <tr>
+            <th>Policy Name</th>
+            <th class="col-symbol">Button Text</th>
+            <th class="col-color">Color</th>
+            <th>Description</th>
+            <th>DNS Profile</th>
+            <th class="col-actions"></th>
+          </tr>
+        </thead>
+        <tbody id="policy-rows"></tbody>
+      </table>
+      <button id="add-policy-row" class="btn-add-row">+ Add Policy</button>
+      <div class="modal-actions">
+        <button id="settings-save" class="btn-primary">Save</button>
+        <button id="settings-cancel" class="btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

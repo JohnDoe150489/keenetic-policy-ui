@@ -1,0 +1,9 @@
+#!/bin/sh
+# keenetic-policy-ui — pre-remove script
+
+# Stop service if the init script exists
+if [ -x /opt/etc/init.d/S99keenetic-policy-ui ]; then
+    /opt/etc/init.d/S99keenetic-policy-ui stop 2>/dev/null || true
+fi
+
+exit 0

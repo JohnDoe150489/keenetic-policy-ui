@@ -1,0 +1,653 @@
+:root {
+  --bg: #1a1a2e;
+  --surface: #16213e;
+  --surface-hover: #1a2745;
+  --border: #2a3a5c;
+  --text: #e0e0e0;
+  --text-muted: #8892a4;
+  --accent: #4ecca3;
+  --danger: #e74c3c;
+  --toggle-off: #4a4a5a;
+  --radius: 10px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 0 16px 32px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+header h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Login button */
+.login-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.login-btn:hover {
+  background: var(--surface-hover);
+}
+
+#filter-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 0.9rem;
+  padding: 8px 14px;
+  width: 220px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+#filter-input::placeholder {
+  color: var(--text-muted);
+}
+
+#filter-input:focus {
+  border-color: var(--accent);
+}
+
+.online-filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.online-filter input {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+#refresh-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 1.3rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.3s;
+}
+
+#refresh-btn:hover {
+  background: var(--surface-hover);
+}
+
+#refresh-btn.spinning {
+  animation: spin 0.6s ease;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Device list */
+#device-list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.loading {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 60px 0;
+  font-size: 1.1rem;
+}
+
+.error {
+  text-align: center;
+  color: var(--danger);
+  padding: 60px 0;
+}
+
+/* Device card */
+.device-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: background 0.2s;
+}
+
+.device-card:hover {
+  background: var(--surface-hover);
+}
+
+.device-card.inactive {
+  opacity: 0.5;
+}
+
+.device-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.device-name {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.device-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.device-mac {
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.status-dot.online {
+  background: var(--accent);
+}
+
+.status-dot.offline {
+  background: var(--toggle-off);
+}
+
+/* ── Policy selector (pill-shaped buttons) ── */
+
+.policy-selector {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.policy-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 9px;
+  border-radius: 15px;
+  border: 1.5px solid transparent;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  position: relative;
+  color: var(--text-muted);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.policy-option:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.08);
+}
+
+.policy-option.active {
+  border-color: currentColor;
+  background: rgba(255, 255, 255, 0.1);
+  color: currentColor;
+  box-shadow: 0 0 6px color-mix(in srgb, currentColor 30%, transparent);
+  font-weight: 600;
+}
+
+.policy-option:disabled {
+  opacity: 0.35;
+  cursor: wait;
+  transform: none;
+}
+
+.policy-option.loading {
+  animation: pulse 0.6s ease infinite alternate;
+}
+
+/* Tooltip */
+.policy-option .policy-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2a2a3e;
+  color: var(--text);
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.policy-option:hover .policy-tooltip {
+  display: block;
+  z-index: 20;
+}
+
+@keyframes pulse {
+  from { opacity: 0.5; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1.05); }
+}
+
+/* Toast notifications */
+#toast-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1000;
+}
+
+.toast {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: white;
+  animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+  max-width: 360px;
+}
+
+.toast.success {
+  background: #27ae60;
+}
+
+.toast.error {
+  background: var(--danger);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+  to { transform: translateX(100%); opacity: 0; }
+}
+
+/* ── Login Modal ───────────────────────────────────────────────── */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  width: 340px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.modal h2 {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+#login-form input {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 0.95rem;
+  outline: none;
+  font-family: inherit;
+}
+
+#login-form input:focus {
+  border-color: var(--accent);
+}
+
+#login-form input::placeholder {
+  color: var(--text-muted);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-primary,
+.btn-secondary {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius);
+  border: none;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  opacity: 0.85;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #000;
+  font-weight: 600;
+}
+
+.btn-secondary {
+  background: var(--border);
+  color: var(--text);
+}
+
+/* ── Settings gear button ─────────────────────────────────────────── */
+
+.settings-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 1.1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-btn:hover {
+  background: var(--surface-hover);
+}
+
+.settings-btn.hidden {
+  display: none;
+}
+
+/* ── Settings modal (wide variant) ───────────────────────────────── */
+
+.modal-wide {
+  width: 680px;
+  max-width: 95vw;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+/* Settings error bar */
+.settings-error {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  color: var(--danger);
+  font-size: 0.85rem;
+}
+
+.settings-error.hidden {
+  display: none;
+}
+
+/* ── Policy configuration table ──────────────────────────────────── */
+
+.policy-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+}
+
+.policy-table th {
+  text-align: left;
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.policy-table td {
+  padding: 6px;
+  vertical-align: middle;
+}
+
+.col-symbol {
+  width: 90px;
+}
+
+.col-color {
+  width: 55px;
+}
+
+.col-actions {
+  width: 40px;
+  text-align: center;
+}
+
+/* Form controls inside the table */
+.policy-table select,
+.policy-table input[type="text"] {
+  width: 100%;
+  padding: 6px 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.policy-table select:focus,
+.policy-table input[type="text"]:focus {
+  border-color: var(--accent);
+}
+
+.policy-table input[type="color"] {
+  width: 36px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+}
+
+.policy-table select:disabled,
+.policy-table input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Input validation error state */
+.policy-table input.error,
+.policy-table select.error {
+  border-color: var(--danger);
+}
+
+/* ── Delete row button ───────────────────────────────────────────── */
+
+.btn-delete-row {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.btn-delete-row:hover {
+  background: rgba(231, 76, 60, 0.15);
+}
+
+/* ── Add row button ──────────────────────────────────────────────── */
+
+.btn-add-row {
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  color: var(--accent);
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+  width: 100%;
+  margin-bottom: 16px;
+  transition: background 0.2s, border-style 0.2s;
+}
+
+.btn-add-row:hover {
+  background: var(--surface-hover);
+  border-style: solid;
+}
+
+/* ── Single-device mode (unauthenticated) ──────────────────────── */
+
+
+body:not(.authenticated):not(.public-mode) #filter-input,
+body:not(.authenticated):not(.public-mode) .online-filter,
+body:not(.authenticated):not(.public-mode) #refresh-btn {
+  display: none;
+}
+
+/* Responsive */
+.no-results {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 40px 0;
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  header h1 {
+    font-size: 1.1rem;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  #filter-input {
+    flex: 1;
+  }
+
+  .device-card {
+    padding: 10px 12px;
+  }
+
+  .device-info {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .device-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .policy-selector {
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .device-meta {
+    gap: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .policy-option {
+    height: 34px;
+    min-width: 34px;
+    padding: 0 11px;
+    border-radius: 17px;
+    font-size: 1rem;
+  }
+}
+
